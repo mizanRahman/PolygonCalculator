@@ -8,12 +8,12 @@
  *
  * Created on May 19, 2013, 12:53:05 AM
  */
-
 package polygoncalculator;
 
 import java.awt.ItemSelectable;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,49 +21,56 @@ import java.awt.event.ItemListener;
  */
 public class PolygonCalculatorUI extends javax.swing.JFrame {
 
-    private enum Polygon {
-        Triangle, Rectangle, Square,Parallelogram, Circle;
-    }
+    private ArrayList<Shape> shapeList = new ArrayList<Shape>();
 
-    /** Creates new form PolygonCalculatorUI */
-    public PolygonCalculatorUI() {
-        initComponents();
-        ItemListener itemListener = new ItemListener() {
-          public void itemStateChanged(ItemEvent itemEvent) {
+    private enum Polygon {
+
+        Triangle, Rectangle, Square, Parallelogram, Circle;
+    }
+    Polygon polygonSelected = null;
+    private ItemListener itemListener = new ItemListener() {
+
+        public void itemStateChanged(ItemEvent itemEvent) {
             //System.out.println("Item: " + itemEvent.getItem());
             ItemSelectable is = itemEvent.getItemSelectable();
-            Polygon polygonSelected = null;
             try {
                 polygonSelected = Polygon.valueOf(selectedString(is));
-                System.out.println(selectedString(is));
             } catch (Exception e) {
                 System.out.println("Something wrong while selecting the shape");
             }
 
-            switch(polygonSelected){
-                case Triangle:
-                    inputLabel1.setText("Base");
-                    inputLabel2.setText("Height");
-                    break;
-                case Rectangle:
-                    inputLabel2.setText("Width");
-                    inputLabel1.setText("Height");
-                    break;
-                case Square:
-                    inputLabel1.setText("Length");
-                    break;
-                case Parallelogram:
-                    inputLabel1.setText("Base");
-                    inputLabel2.setText("Height");
-                    break;
-                case Circle:
-                    inputLabel1.setText("Radius");
-                    break;
-                default:
-                    break;
+            if (polygonSelected != null) {
+                switch (polygonSelected) {
+                    case Triangle:
+                        inputLabel1.setText("Base");
+                        inputLabel2.setText("Height");
+                        break;
+                    case Rectangle:
+                        inputLabel2.setText("Width");
+                        inputLabel1.setText("Height");
+                        break;
+                    case Square:
+                        inputLabel1.setText("Length");
+                        break;
+                    case Parallelogram:
+                        inputLabel1.setText("Base");
+                        inputLabel2.setText("Height");
+                        break;
+                    case Circle:
+                        inputLabel1.setText("Radius");
+                        break;
+                    default:
+                        break;
+                }
             }
-          }
-        };
+        }
+    };
+
+    /** Creates new form PolygonCalculatorUI */
+    public PolygonCalculatorUI() {
+        initComponents();
+        polygonSelected = Polygon.valueOf(shapeComboBox.getSelectedItem().toString());
+
         shapeComboBox.addItemListener(itemListener);
 
     }
@@ -72,8 +79,7 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
         Object selected[] = is.getSelectedObjects();
         return ((selected.length == 0) ? "null" : (String) selected[0]);
     }
-    
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -188,27 +194,64 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void calculateButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateButton1ActionPerformed
-        // TODO add your handling code here:
 
-        int base   = Integer.parseInt(inputTextField1.getText());
-        int height = Integer.parseInt(inputTextField2.getText());
+        Shape shape = null;
 
-        double result = base*height*0.5;
+        if (polygonSelected != null) {
+            switch (polygonSelected) {
+                case Triangle:
+                    shape = new Triangle(
+                            Double.parseDouble(inputTextField1.getText()),
+                            Double.parseDouble(inputTextField2.getText()));
+                    break;
+                case Rectangle:
+                    shape = new Rectangle(
+                            Double.parseDouble(inputTextField1.getText()),
+                            Double.parseDouble(inputTextField2.getText()));
+                    break;
+                case Square:
+                    shape = new Square(
+                            Double.parseDouble(inputTextField1.getText()));
+                    break;
+                case Parallelogram:
+                    shape = new Parallelogram(
+                            Double.parseDouble(inputTextField1.getText()),
+                            Double.parseDouble(inputTextField2.getText()));
+                    break;
+                case Circle:
+                    shape = new Circle(
+                            Double.parseDouble(inputTextField1.getText()));
+                    break;
+                default:
+                    break;
+            }
+        }
 
-        areaValLabel.setText(String.valueOf(result));
+        if (shape != null) {
+            shapeList.add(shape);
+            double area = shape.area();
+            areaValLabel.setText(String.valueOf(area));
+            System.out.println(shape);
+
+        }
+
+
+
+
+
     }//GEN-LAST:event_calculateButton1ActionPerformed
 
     /**
-    * @param args the command line arguments
-    */
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 new PolygonCalculatorUI().setVisible(true);
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel areaLabel;
     private javax.swing.JLabel areaValLabel;
@@ -220,5 +263,4 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
     private javax.swing.JTextField inputTextField2;
     private javax.swing.JComboBox shapeComboBox;
     // End of variables declaration//GEN-END:variables
-
 }

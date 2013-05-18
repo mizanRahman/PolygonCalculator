@@ -9,24 +9,26 @@ package polygoncalculator;
  *
  * @author mizan
  */
-public class Triangle implements Shape {
+public class Parallelogram implements Shape{
 
     private double base;
     private double height;
 
-    public Triangle(double base, double height) {
+    public Parallelogram(double base, double height) {
         this.base = base;
         this.height = height;
     }
 
     public double area() {
-        return base * height * 0.5;
+        return  base * height;
     }
 
     @Override
     public String toString() {
-        return "Triangle(" + base + "," + height + ')';
+        return "Parallelogram(" + base + "," + height + ')';
     }
+
+
 
 
 
