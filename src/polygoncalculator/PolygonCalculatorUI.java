@@ -11,17 +11,69 @@
 
 package polygoncalculator;
 
+import java.awt.ItemSelectable;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 /**
  *
  * @author mizan
  */
 public class PolygonCalculatorUI extends javax.swing.JFrame {
 
+    private enum Polygon {
+        Triangle, Rectangle, Square,Parallelogram, Circle;
+    }
+
     /** Creates new form PolygonCalculatorUI */
     public PolygonCalculatorUI() {
         initComponents();
+        ItemListener itemListener = new ItemListener() {
+          public void itemStateChanged(ItemEvent itemEvent) {
+            //System.out.println("Item: " + itemEvent.getItem());
+            ItemSelectable is = itemEvent.getItemSelectable();
+            Polygon polygonSelected = null;
+            try {
+                polygonSelected = Polygon.valueOf(selectedString(is));
+                System.out.println(selectedString(is));
+            } catch (Exception e) {
+                System.out.println("Something wrong while selecting the shape");
+            }
+
+            switch(polygonSelected){
+                case Triangle:
+                    inputLabel1.setText("Base");
+                    inputLabel2.setText("Height");
+                    break;
+                case Rectangle:
+                    inputLabel2.setText("Width");
+                    inputLabel1.setText("Height");
+                    break;
+                case Square:
+                    inputLabel1.setText("Length");
+                    break;
+                case Parallelogram:
+                    inputLabel1.setText("Base");
+                    inputLabel2.setText("Height");
+                    break;
+                case Circle:
+                    inputLabel1.setText("Radius");
+                    break;
+                default:
+                    break;
+            }
+          }
+        };
+        shapeComboBox.addItemListener(itemListener);
+
     }
 
+    private String selectedString(ItemSelectable is) {
+        Object selected[] = is.getSelectedObjects();
+        return ((selected.length == 0) ? "null" : (String) selected[0]);
+    }
+    
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -144,8 +196,6 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
         double result = base*height*0.5;
 
         areaValLabel.setText(String.valueOf(result));
-
-
     }//GEN-LAST:event_calculateButton1ActionPerformed
 
     /**
