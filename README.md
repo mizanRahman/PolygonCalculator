@@ -1,9 +1,6 @@
 PolygonCalculator
 =================
 
-Download the jar file:
----------
-
 
 
 How to Run:
