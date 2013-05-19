@@ -9,10 +9,12 @@ Download the jar file:
 How to Run:
 -----------
 
-- download the repository 
+- [download](https://github.com/mizanRahman/PolygonCalculator/archive/master.zip) the repository 
 - To run the application from the command line, go to the dist folder and type the following:
 
+```
 	java -jar "PolygonCalculator.jar" 
+```
 
 
 
