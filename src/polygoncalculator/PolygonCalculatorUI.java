@@ -32,7 +32,7 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
             return s1.compareTo(s2);
         }
     });
-
+    private ShapeListModel sListModel;
     private enum Polygon {
 
         Triangle, Rectangle, Square, Parallelogram, Circle;
@@ -81,7 +81,8 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
         initComponents();
         polygonSelected = Polygon.valueOf(shapeComboBox.getSelectedItem().toString());
         shapeComboBox.addItemListener(itemListener);
-        
+        sListModel = new ShapeListModel(shapeList);
+        shapeListBox.setModel(sListModel);
     }
 
     private String selectedString(ItemSelectable is) {
@@ -247,7 +248,7 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
         }
 
         if (shape != null) {
-            shapeList.addSorted(shape);
+            sListModel.addElement(shape);
             double area = shape.area();
             areaValLabel.setText(String.valueOf(area));
             System.out.println(shape);
