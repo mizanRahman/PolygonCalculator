@@ -10,10 +10,10 @@
  */
 package polygoncalculator;
 
-import polygon.Rectangle;
+import polygon.Ellipse;
 import polygon.Triangle;
 import polygon.Square;
-import polygon.Parallelogram;
+import polygon.Rhombus;
 import polygon.Circle;
 import polygon.Shape;
 import java.awt.ItemSelectable;
@@ -29,7 +29,7 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
 
 
     private enum Polygon {
-        Triangle, Rectangle, Square, Parallelogram, Circle;
+        Triangle, Ellipse, Square, Rhombus, Circle;
     }
     private Polygon polygonSelected = null;
 
@@ -56,17 +56,17 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
                         showInput1("Base");
                         showInput2("Height");
                         break;
-                    case Rectangle:
-                        showInput1("Width");
-                        showInput2("Height");
+                    case Ellipse:
+                        showInput1("Radius1");
+                        showInput2("Radius2");
                         break;
                     case Square:
                         showInput1("Length");
                         hideInput2();
                         break;
-                    case Parallelogram:
-                        showInput1("Base");
-                        showInput2("Height");
+                    case Rhombus:
+                        showInput1("Diagonal");
+                        showInput2("Diagona2");
                         break;
                     case Circle:
                         showInput1("Radius");
@@ -152,7 +152,7 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        shapeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Triangle", "Rectangle", "Square", "Parallelogram", "Circle" }));
+        shapeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Triangle", "Ellipse", "Square", "Circle", "Rhombus" }));
 
         inputPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -265,8 +265,8 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
                             Double.parseDouble(inputTextField1.getText()),
                             Double.parseDouble(inputTextField2.getText()));
                     break;
-                case Rectangle:
-                    shape = new Rectangle(
+                case Ellipse:
+                    shape = new Ellipse(
                             Double.parseDouble(inputTextField1.getText()),
                             Double.parseDouble(inputTextField2.getText()));
                     break;
@@ -274,8 +274,8 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
                     shape = new Square(
                             Double.parseDouble(inputTextField1.getText()));
                     break;
-                case Parallelogram:
-                    shape = new Parallelogram(
+                case Rhombus:
+                    shape = new Rhombus(
                             Double.parseDouble(inputTextField1.getText()),
                             Double.parseDouble(inputTextField2.getText()));
                     break;
