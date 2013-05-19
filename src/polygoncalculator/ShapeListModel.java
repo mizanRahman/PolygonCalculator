@@ -5,6 +5,7 @@
 
 package polygoncalculator;
 
+import polygon.Shape;
 import javax.swing.AbstractListModel;
 
 /**

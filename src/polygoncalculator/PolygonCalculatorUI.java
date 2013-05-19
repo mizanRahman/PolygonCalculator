@@ -10,6 +10,12 @@
  */
 package polygoncalculator;
 
+import polygon.Rectangle;
+import polygon.Triangle;
+import polygon.Square;
+import polygon.Parallelogram;
+import polygon.Circle;
+import polygon.Shape;
 import java.awt.ItemSelectable;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;

@@ -2,32 +2,30 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package polygon;
 
-package polygoncalculator;
+import polygon.Shape;
 
 /**
  *
  * @author mizan
  */
-public class Triangle extends  Shape {
+public class Rectangle extends Shape {
 
-    private double base;
+    private double width;
     private double height;
 
-    public Triangle(double base, double height) {
-        this.base = base;
+    public Rectangle(double width, double height) {
+        this.width = width;
         this.height = height;
     }
 
     public double area() {
-        return base * height * 0.5;
+        return width * height;
     }
 
     @Override
     public String toString() {
-        return "Triangle(" + base + "," + height + ')';
+        return "Rectangle(" + width + "," + height + ')';
     }
-
-
-
 }
