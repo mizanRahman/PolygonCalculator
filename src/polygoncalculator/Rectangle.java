@@ -8,7 +8,7 @@ package polygoncalculator;
  *
  * @author mizan
  */
-public class Rectangle implements Shape {
+public class Rectangle extends Shape {
 
     private double width;
     private double height;

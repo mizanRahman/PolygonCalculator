@@ -9,7 +9,7 @@ package polygoncalculator;
  *
  * @author mizan
  */
-public class Square implements Shape {
+public class Square extends Shape {
 
     private double length;
 

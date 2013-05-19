@@ -5,10 +5,16 @@
 
 package polygoncalculator;
 
+
 /**
  *
  * @author mizan
  */
-public interface Shape {
-        public double area();
+public abstract class Shape implements Comparable<Shape> {
+    public abstract double area();
+
+    public int compareTo(Shape s){
+        return (int) (this.area() - s.area());
+    }
+
 }

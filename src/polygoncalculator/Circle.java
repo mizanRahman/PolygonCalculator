@@ -9,7 +9,7 @@ package polygoncalculator;
  *
  * @author mizan
  */
-public class Circle implements Shape {
+public class Circle extends Shape {
     private double radius;
 
     public Circle(double radius) {

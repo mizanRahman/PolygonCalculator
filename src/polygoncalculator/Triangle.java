@@ -9,7 +9,7 @@ package polygoncalculator;
  *
  * @author mizan
  */
-public class Triangle implements Shape {
+public class Triangle extends  Shape {
 
     private double base;
     private double height;

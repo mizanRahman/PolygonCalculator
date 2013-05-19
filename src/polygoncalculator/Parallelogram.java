@@ -9,7 +9,7 @@ package polygoncalculator;
  *
  * @author mizan
  */
-public class Parallelogram implements Shape{
+public class Parallelogram extends Shape{
 
     private double base;
     private double height;

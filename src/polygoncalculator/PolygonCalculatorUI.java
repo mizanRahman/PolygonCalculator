@@ -14,6 +14,11 @@ import java.awt.ItemSelectable;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
 
 /**
  *
@@ -21,7 +26,12 @@ import java.util.ArrayList;
  */
 public class PolygonCalculatorUI extends javax.swing.JFrame {
 
-    private ArrayList<Shape> shapeList = new ArrayList<Shape>();
+    SortedArrayList<Shape> shapeList = new SortedArrayList<Shape>(new Comparator<Shape>() {
+
+        public int compare(Shape s1, Shape s2) {
+            return s1.compareTo(s2);
+        }
+    });
 
     private enum Polygon {
 
@@ -70,9 +80,8 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
     public PolygonCalculatorUI() {
         initComponents();
         polygonSelected = Polygon.valueOf(shapeComboBox.getSelectedItem().toString());
-
         shapeComboBox.addItemListener(itemListener);
-
+        
     }
 
     private String selectedString(ItemSelectable is) {
@@ -98,6 +107,8 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
         calculateButton1 = new javax.swing.JButton();
         areaLabel = new javax.swing.JLabel();
         areaValLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        shapeListBox = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -157,37 +168,45 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
 
         areaValLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
+        jScrollPane1.setViewportView(shapeListBox);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(inputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(inputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(areaLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(areaValLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(65, 65, 65)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(192, 192, 192)
-                        .addComponent(shapeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(193, 193, 193)
-                        .addComponent(areaLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(areaValLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(184, Short.MAX_VALUE))
+                        .addGap(42, 42, 42)
+                        .addComponent(shapeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(shapeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(inputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(areaLabel)
-                    .addComponent(areaValLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(134, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(104, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(shapeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(inputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(areaLabel)
+                            .addComponent(areaValLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(81, 81, 81))
         );
 
         pack();
@@ -228,7 +247,7 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
         }
 
         if (shape != null) {
-            shapeList.add(shape);
+            shapeList.addSorted(shape);
             double area = shape.area();
             areaValLabel.setText(String.valueOf(area));
             System.out.println(shape);
@@ -261,6 +280,8 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
     private javax.swing.JPanel inputPanel;
     private javax.swing.JTextField inputTextField1;
     private javax.swing.JTextField inputTextField2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox shapeComboBox;
+    private javax.swing.JList shapeListBox;
     // End of variables declaration//GEN-END:variables
 }
