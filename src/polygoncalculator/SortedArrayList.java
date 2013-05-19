@@ -9,7 +9,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 /**
- *
+ * this list will always be sorted
+ * while inserting an element, the element will be placed in proper index 
  * @author mizan
  */
 public class SortedArrayList<Shape> extends ArrayList<Shape> {

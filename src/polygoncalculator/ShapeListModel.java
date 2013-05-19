@@ -9,7 +9,8 @@ import polygon.Shape;
 import javax.swing.AbstractListModel;
 
 /**
- *
+ * provides the model for JList
+ * synchronizes with the sorted shapeList
  * @author mizan
  */
 public class ShapeListModel extends AbstractListModel {

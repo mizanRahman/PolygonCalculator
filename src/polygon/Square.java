@@ -5,7 +5,6 @@
 
 package polygon;
 
-import polygon.Shape;
 
 /**
  *
