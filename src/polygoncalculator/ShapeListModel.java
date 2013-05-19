@@ -14,20 +14,20 @@ import javax.swing.AbstractListModel;
  */
 public class ShapeListModel extends AbstractListModel {
 
-    private SortedArrayList<Shape> myArrayList ;
+    private SortedArrayList<Shape> sortedShapeList ;
 
     ShapeListModel(SortedArrayList<Shape> shapeList) {
-        myArrayList = shapeList;
+        sortedShapeList = shapeList;
     }
 
     public void addElement(Shape shape) {
-        myArrayList.addSorted(shape);
-        fireIntervalAdded(this, myArrayList.size()-1, myArrayList.size()-1);
+        sortedShapeList.addSorted(shape);
+        fireIntervalAdded(this, sortedShapeList.size()-1, sortedShapeList.size()-1);
     }
 
     @Override
-    public Object getElementAt(int index) { return myArrayList.get(index); }
+    public Object getElementAt(int index) { return sortedShapeList.get(index); }
 
     @Override
-    public int getSize() { return myArrayList.size(); }
+    public int getSize() { return sortedShapeList.size(); }
 }
