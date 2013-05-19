@@ -13,61 +13,58 @@ package polygoncalculator;
 import java.awt.ItemSelectable;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
-import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
 
 /**
- *
+ * user interface for Polygon Calculator
  * @author mizan
  */
 public class PolygonCalculatorUI extends javax.swing.JFrame {
 
-    SortedArrayList<Shape> shapeList = new SortedArrayList<Shape>(new Comparator<Shape>() {
 
-        public int compare(Shape s1, Shape s2) {
-            return s1.compareTo(s2);
-        }
-    });
-    private ShapeListModel sListModel;
     private enum Polygon {
-
         Triangle, Rectangle, Square, Parallelogram, Circle;
     }
-    Polygon polygonSelected = null;
+    private Polygon polygonSelected = null;
+
+    private ShapeListModel sListModel;
+
+    /*
+     * Listens for selection change in the combobox
+     * loads proper input panel
+     */
     private ItemListener itemListener = new ItemListener() {
 
         public void itemStateChanged(ItemEvent itemEvent) {
-            //System.out.println("Item: " + itemEvent.getItem());
             ItemSelectable is = itemEvent.getItemSelectable();
             try {
                 polygonSelected = Polygon.valueOf(selectedString(is));
             } catch (Exception e) {
                 System.out.println("Something wrong while selecting the shape");
+                return;
             }
 
             if (polygonSelected != null) {
                 switch (polygonSelected) {
                     case Triangle:
-                        inputLabel1.setText("Base");
-                        inputLabel2.setText("Height");
+                        showInput1("Base");
+                        showInput2("Height");
                         break;
                     case Rectangle:
-                        inputLabel2.setText("Width");
-                        inputLabel1.setText("Height");
+                        showInput1("Width");
+                        showInput2("Height");
                         break;
                     case Square:
-                        inputLabel1.setText("Length");
+                        showInput1("Length");
+                        hideInput2();
                         break;
                     case Parallelogram:
-                        inputLabel1.setText("Base");
-                        inputLabel2.setText("Height");
+                        showInput1("Base");
+                        showInput2("Height");
                         break;
                     case Circle:
-                        inputLabel1.setText("Radius");
+                        showInput1("Radius");
+                        hideInput2();
                         break;
                     default:
                         break;
@@ -76,18 +73,54 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
         }
     };
 
-    /** Creates new form PolygonCalculatorUI */
+    /*
+     * Creates new form PolygonCalculatorUI
+     */
     public PolygonCalculatorUI() {
         initComponents();
         polygonSelected = Polygon.valueOf(shapeComboBox.getSelectedItem().toString());
         shapeComboBox.addItemListener(itemListener);
-        sListModel = new ShapeListModel(shapeList);
+        sListModel = new ShapeListModel(new SortedArrayList<Shape>(new Comparator<Shape>() {
+
+            public int compare(Shape s1, Shape s2) {
+                return s1.compareTo(s2);
+            }
+        }));
         shapeListBox.setModel(sListModel);
     }
 
+    /*
+     * returns selected item in string format
+     */
     private String selectedString(ItemSelectable is) {
         Object selected[] = is.getSelectedObjects();
         return ((selected.length == 0) ? "null" : (String) selected[0]);
+    }
+
+    /*
+     * show the first input with provided label
+     */
+    private void showInput1(String label) {
+        inputLabel1.setText(label);
+        inputLabel1.setVisible(true);
+        inputTextField1.setVisible(true);
+    }
+
+    /*
+     * show the second input with provided label
+     */
+    private void showInput2(String label) {
+        inputLabel2.setText(label);
+        inputLabel2.setVisible(true);
+        inputTextField2.setVisible(true);
+    }
+
+    /*
+     *  Hides the second input with label
+     */
+    private void hideInput2() {
+        inputLabel2.setVisible(false);
+        inputTextField2.setVisible(false);
     }
 
     /** This method is called from within the constructor to
@@ -113,7 +146,9 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        shapeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Triangle", "Rectangle", "Square", "Parallelogram", "Circle", " " }));
+        shapeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Triangle", "Rectangle", "Square", "Parallelogram", "Circle" }));
+
+        inputPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         inputLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         inputLabel1.setText("Base");
@@ -176,9 +211,9 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(inputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
@@ -189,19 +224,19 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
                         .addGap(65, 65, 65)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                        .addGap(196, 196, 196)
                         .addComponent(shapeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(104, Short.MAX_VALUE)
+                .addGap(22, 22, 22)
+                .addComponent(shapeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(shapeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(inputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -248,11 +283,14 @@ public class PolygonCalculatorUI extends javax.swing.JFrame {
         }
 
         if (shape != null) {
+            //add the shape to the listBox
             sListModel.addElement(shape);
-            double area = shape.area();
-            areaValLabel.setText(String.valueOf(area));
+            //show the calculated Polygon area 
+            areaValLabel.setText(String.valueOf(shape.area()));
+            
+            inputTextField1.setText("");
+            inputTextField2.setText("");
             System.out.println(shape);
-
         }
 
 
